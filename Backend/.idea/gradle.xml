@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/carrinho" />
+        <option name="gradleJvm" value="adopt-openj9-11" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/carrinho" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/catalogoproduto" />
+        <option name="gradleJvm" value="adopt-openj9-11" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/catalogoproduto" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/logisticaseparacao" />
+        <option name="gradleJvm" value="adopt-openj9-11" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/logisticaseparacao" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/pagamento" />
+        <option name="gradleJvm" value="adopt-openj9-11" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/pagamento" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
