@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "ProdutoOutput",
+  "namespace": "com.dio.alexander.catalogoproduto.event",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["long"]
+    },
+    {
+      "name": "message",
+      "type": ["string"]
+    }
+  ]
+}
