@@ -18,10 +18,13 @@ import java.util.stream.Collectors;
 public class ProdutoServiceImpl implements ProdutoService {
 
     private final ProdutoRepository repository;
+    private final ProdutoMapper produtoMapper;
 
     @Override
     public MessageResponseDTO createProduto(ProdutoDTO produtoDTO) {
-        final Produto produtoToSave = ProdutoMapper.INSTANCE.toModel(produtoDTO);
+        final Produto produtoToSave = produtoMapper.toModel(produtoDTO);
+
+        produtoToSave.setAtivo(true);
 
         final Produto savedProduto = repository.save(produtoToSave);
         return createMessageResponse(savedProduto.getId(), "Produto salvo com ID::");
@@ -29,7 +32,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public ProdutoDTO produtoById(Long id) throws ProdutoNotFoundException {
-        return ProdutoMapper.INSTANCE.toDTO(
+        return produtoMapper.toDTO(
                 verifyIfExists(id)
         );
     }
@@ -37,7 +40,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public List<ProdutoDTO> allProdutos() {
         return repository.findAll().stream().map(
-                (produto) -> ProdutoMapper.INSTANCE.toDTO(produto)
+                (produto) -> produtoMapper.toDTO(produto)
         ).collect(Collectors.toList());
     }
 
@@ -46,7 +49,7 @@ public class ProdutoServiceImpl implements ProdutoService {
             throws ProdutoNotFoundException {
 
         final Produto produtoExistente = verifyIfExists(id);
-        final Produto produtoToUpdate = ProdutoMapper.INSTANCE.toModel(produtoDTO);
+        final Produto produtoToUpdate = produtoMapper.toModel(produtoDTO);
 
         produtoToUpdate.setId(id);
         produtoToUpdate.setDataInclusao(produtoExistente.getDataInclusao());

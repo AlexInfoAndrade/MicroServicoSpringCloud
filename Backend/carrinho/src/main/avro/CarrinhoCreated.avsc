@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "CarrinhoCreated",
+  "namespace": "com.dio.alexander.carrinho.event",
+  "fields": [
+    {
+      "name": "code",
+      "type": ["string"]
+    },
+    {
+      "name": "status",
+      "type": ["string"]
+    }
+  ]
+}

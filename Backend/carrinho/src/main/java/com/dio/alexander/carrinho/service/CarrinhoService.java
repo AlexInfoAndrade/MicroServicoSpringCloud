@@ -12,8 +12,6 @@ public interface CarrinhoService {
 
     MessageResponseDTO createCarrinho(CarrinhoDTO carrinhoDTO);
 
-    void pagar(String code) throws CarrinhoNotFoundException;
-
     CarrinhoDTO carrinhoByCode(String code) throws CarrinhoNotFoundException;
 
     MessageResponseDTO updateCarrinho(String code, CarrinhoDTO carrinhoDTO)

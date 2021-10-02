@@ -15,6 +15,7 @@ import java.util.List;
 public class CarrinhoDTO {
 
     private Long id;
+    private String code;
     private String status;
     private List<ItemCarrinhoDTO> itens;
     private LocalDateTime dataInclusao;

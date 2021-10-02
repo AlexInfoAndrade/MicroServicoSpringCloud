@@ -2,12 +2,11 @@ package com.dio.alexander.carrinho.mapper;
 
 import com.dio.alexander.carrinho.dto.request.CarrinhoDTO;
 import com.dio.alexander.carrinho.model.Carrinho;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapper;
 
+@Mapper(componentModel="spring")
 public interface CarrinhoMapper {
 
-    CarrinhoMapper INSTANCE = Mappers.getMapper(CarrinhoMapper.class);
-
-    Carrinho toModel(CarrinhoDTO produtoDTO);
-    CarrinhoDTO toDTO(Carrinho produto);
+    Carrinho toModel(CarrinhoDTO carrinhoDTO);
+    CarrinhoDTO toDTO(Carrinho carrinho);
 }

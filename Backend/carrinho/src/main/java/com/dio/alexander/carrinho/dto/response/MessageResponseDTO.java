@@ -8,5 +8,6 @@ import lombok.Data;
 public class MessageResponseDTO {
 
     private Long id;
+    private String code;
     private String message;
 }

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -22,13 +21,11 @@ public class ProdutoController {
     private final ProdutoService service;
 
     @PostMapping("/")
-    public ResponseEntity<MessageResponseDTO> create(@RequestBody @Valid ProdutoDTO produtoDTO,
-                                                     HttpServletResponse response) {
+    public ResponseEntity<MessageResponseDTO> create(@RequestBody @Valid ProdutoDTO produtoDTO) {
 
         MessageResponseDTO messageResponseDTO = service.createProduto(produtoDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(messageResponseDTO.getId()).toUri();
-        response.setHeader("Location", uri.toASCIIString());
 
         return ResponseEntity.created(uri).body(messageResponseDTO);
     }
@@ -61,6 +58,7 @@ public class ProdutoController {
         return ResponseEntity.accepted().body(messageResponseDTO);
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws ProdutoNotFoundException {
         service.deleteProduto(id);
 

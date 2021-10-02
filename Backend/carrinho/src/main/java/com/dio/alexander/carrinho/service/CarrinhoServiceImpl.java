@@ -1,7 +1,5 @@
 package com.dio.alexander.carrinho.service;
 
-import com.dio.alexander.carrinho.Repository.CarrinhoRepository;
-import com.dio.alexander.carrinho.Repository.ItemCarrinhoRepository;
 import com.dio.alexander.carrinho.dto.request.CarrinhoDTO;
 import com.dio.alexander.carrinho.dto.request.ItemCarrinhoDTO;
 import com.dio.alexander.carrinho.dto.response.CarrinhoResponse;
@@ -12,9 +10,12 @@ import com.dio.alexander.carrinho.mapper.CarrinhoMapper;
 import com.dio.alexander.carrinho.mapper.ItemCarrinhoMapper;
 import com.dio.alexander.carrinho.model.Carrinho;
 import com.dio.alexander.carrinho.model.ItemCarrinho;
+import com.dio.alexander.carrinho.repository.CarrinhoRepository;
+import com.dio.alexander.carrinho.repository.ItemCarrinhoRepository;
 import com.dio.alexander.carrinho.streaming.CarrinhoCreated;
 import com.dio.alexander.carrinho.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,8 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     private final CarrinhoRepository carrinhoRepository;
     private final ItemCarrinhoRepository itemCarrinhoRepository;
-    private final CarrinhoMapper carrinhoMapper = CarrinhoMapper.INSTANCE;
-    private final ItemCarrinhoMapper itemCarrinhoMapper = ItemCarrinhoMapper.INSTANCE;
+    private final CarrinhoMapper carrinhoMapper;
+    private final ItemCarrinhoMapper itemCarrinhoMapper;
     private final UUIDUtil uuidUtil;
     private final CarrinhoCreated carrinhoCreated;
 
@@ -46,19 +47,18 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         final Carrinho savedCarrinho = carrinhoRepository.save(carrinhoToSave);
 
-        return createMessageResponse(savedCarrinho.getId(), "Carrinho salvo com ID::");
-    }
-
-    @Override
-    public void pagar(String code) throws CarrinhoNotFoundException {
-        final Carrinho carrinho = verifyIfExists(code);
-
         final CarrinhoResponse carrinhoResponse = CarrinhoResponse.builder()
-                .code(carrinho.getCode())
-                .status(carrinho.getStatus().name())
+                .code(savedCarrinho.getCode())
+                .status(savedCarrinho.getStatus().name())
                 .build();
 
         carrinhoCreated.output().send(MessageBuilder.withPayload(carrinhoResponse).build());
+
+        return createMessageResponse(
+                savedCarrinho.getId(),
+                savedCarrinho.getCode(),
+                "Carrinho salvo com ID::"
+        );
     }
 
     @Override
@@ -79,7 +79,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         final Carrinho updatedCarrinho = carrinhoRepository.save(carrinhoToUpdate);
 
-        return createMessageResponse(updatedCarrinho.getId(), "Carrinho alterado com ID::");
+        return createMessageResponse(updatedCarrinho.getId(), code, "Carrinho alterado com ID::");
     }
 
     @Override
@@ -100,7 +100,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         final ItemCarrinho savedItem = itemCarrinhoRepository.save(itemToSave);
 
-        return createMessageResponse(savedItem.getId(), "Item salvo com ID::");
+        return createMessageResponse(savedItem.getId(), carrinhoCode, "Item salvo com ID::");
     }
 
     @Override
@@ -124,7 +124,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         final ItemCarrinho updatedItem = itemCarrinhoRepository.save(itemToUpdate);
 
-        return createMessageResponse(updatedItem.getId(), "Item alterado com ID::");
+        return createMessageResponse(updatedItem.getId(), carrinhoCode, "Item alterado com ID::");
     }
 
     @Override
@@ -144,10 +144,11 @@ public class CarrinhoServiceImpl implements CarrinhoService {
                 .orElseThrow(() -> new ItemCarrinhoNotFoundException(id));
     }
 
-    private MessageResponseDTO createMessageResponse(Long id, String message) {
+    private MessageResponseDTO createMessageResponse(Long id, String code, String message) {
         return MessageResponseDTO
                 .builder()
                 .id(id)
+                .code(code)
                 .message(message + id)
                 .build();
     }
