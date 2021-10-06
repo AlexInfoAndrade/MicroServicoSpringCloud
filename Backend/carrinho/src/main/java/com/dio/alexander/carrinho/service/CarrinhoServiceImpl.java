@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,14 +34,17 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     private final UUIDUtil uuidUtil;
     private final CarrinhoCreated carrinhoCreated;
 
+//    curl -H 'Content-Type: application/json' -X POST http://localhost:8082/v1/carrinho/ -d '{"itens":[{"prodtudoId":563, "valor":15.0, "quantidade":2.0}]}'
+
     @Override
     public MessageResponseDTO createCarrinho(CarrinhoDTO carrinhoDTO) {
+        final List<ItemCarrinhoDTO> itensDTO = carrinhoDTO.getItens();
         final Carrinho carrinhoToSave = carrinhoMapper.toModel(carrinhoDTO);
 
         carrinhoToSave.setCode(uuidUtil.createUUID().toString());
         carrinhoToSave.setStatus(Carrinho.Status.CRIADO);
         carrinhoToSave.setItens(
-                carrinhoDTO.getItens().stream()
+                itensDTO.stream()
                         .map(item -> itemCarrinhoMapper.toModel(item))
                         .collect(Collectors.toList())
         );

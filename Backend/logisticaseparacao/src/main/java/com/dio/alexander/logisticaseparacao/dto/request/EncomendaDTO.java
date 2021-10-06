@@ -1,4 +1,4 @@
-package com.dio.alexander.carrinho.dto.request;
+package com.dio.alexander.logisticaseparacao.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,17 +9,18 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
 @Builder
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-public class CarrinhoDTO implements Serializable {
+@AllArgsConstructor
+public class EncomendaDTO implements Serializable {
 
     private Long id;
+    private String pagamentoCode;
+    private String carrinhoCode;
     private String code;
     private String status;
-    private List<ItemCarrinhoDTO> itens;
+    private List<ItemEncomendaDTO> itens;
     private LocalDateTime dataInclusao;
     private LocalDateTime dataAlteracao;
-
 }

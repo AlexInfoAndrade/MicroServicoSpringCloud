@@ -13,6 +13,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 @Entity
 @Audited
@@ -21,7 +22,7 @@ import javax.persistence.ManyToOne;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemCarrinho {
+public class ItemCarrinho implements Serializable {
 
     @Id
     @GeneratedValue

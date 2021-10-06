@@ -1,4 +1,4 @@
-package com.dio.alexander.carrinho.dto.response;
+package com.dio.alexander.pagamento.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

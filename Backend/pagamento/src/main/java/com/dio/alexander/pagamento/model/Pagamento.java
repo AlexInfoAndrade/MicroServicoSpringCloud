@@ -1,4 +1,4 @@
-package com.dio.alexander.catalogoproduto.model;
+package com.dio.alexander.pagamento.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,33 +9,38 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Audited
 @EntityListeners(AuditingEntityListener.class)
-public class Produto implements Serializable {
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Pagamento implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
     @Column
-    private String descricao;
+    private String carrinhoCode;
 
     @Column
-    private Double estoque;
+    private String code;
+
+    @Column
+    private Double valor;
+
+    @Column
+    private String formaPagamento;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Column
     @CreatedDate
@@ -43,11 +48,10 @@ public class Produto implements Serializable {
 
     @Column
     @LastModifiedDate
-    private LocalDateTime dataAtualizacao;
+    private LocalDateTime dataAlteracao;
 
-    @Column
-    private Double preco;
-
-    @Column
-    private boolean ativo;
+    public enum Status {
+        PENDENTE,
+        FINALIZADO
+    }
 }
