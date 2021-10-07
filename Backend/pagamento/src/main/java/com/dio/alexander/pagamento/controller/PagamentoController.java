@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/pagamento")
@@ -26,6 +27,11 @@ public class PagamentoController {
                 .buildAndExpand(messageResponseDTO.getId()).toUri();
 
         return ResponseEntity.created(uri).body(messageResponseDTO);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<PagamentoDTO>> findAll() {
+        return ResponseEntity.ok(service.listarPagamentos());
     }
 
     @GetMapping("/{code}")

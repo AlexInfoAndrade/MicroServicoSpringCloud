@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "name": "CarrinhoCreated",
+  "name": "PagamentoReservado",
   "namespace": "com.dio.alexander.carrinho.event",
   "fields": [
     {
@@ -10,10 +10,6 @@
     {
       "name": "status",
       "type": ["string"]
-    },
-    {
-      "name": "valor",
-      "type": ["double"]
     }
   ]
 }

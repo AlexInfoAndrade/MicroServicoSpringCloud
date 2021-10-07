@@ -15,4 +15,5 @@ public class CarrinhoResponse implements Serializable {
 
     private String code;
     private String status;
+    private Double valor;
 }

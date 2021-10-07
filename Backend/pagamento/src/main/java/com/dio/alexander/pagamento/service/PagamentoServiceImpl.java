@@ -10,6 +10,9 @@ import com.dio.alexander.pagamento.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class PagamentoServiceImpl implements PagamentoService {
@@ -34,6 +37,13 @@ public class PagamentoServiceImpl implements PagamentoService {
                 savedPagamento.getCode(),
                 "Pagamento criado com ID::"
         );
+    }
+
+    @Override
+    public List<PagamentoDTO> listarPagamentos() {
+        return pagamentoRepository.findAll().stream()
+                .map(pagamento -> pagamentoMapper.toDTO(pagamento))
+                .collect(Collectors.toList());
     }
 
     @Override

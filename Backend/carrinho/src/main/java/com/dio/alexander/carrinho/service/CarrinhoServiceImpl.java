@@ -13,6 +13,7 @@ import com.dio.alexander.carrinho.model.ItemCarrinho;
 import com.dio.alexander.carrinho.repository.CarrinhoRepository;
 import com.dio.alexander.carrinho.repository.ItemCarrinhoRepository;
 import com.dio.alexander.carrinho.streaming.CarrinhoCreated;
+import com.dio.alexander.carrinho.streaming.PagamentoReservado;
 import com.dio.alexander.carrinho.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,26 +44,44 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         carrinhoToSave.setCode(uuidUtil.createUUID().toString());
         carrinhoToSave.setStatus(Carrinho.Status.CRIADO);
-        carrinhoToSave.setItens(
-                itensDTO.stream()
-                        .map(item -> itemCarrinhoMapper.toModel(item))
-                        .collect(Collectors.toList())
-        );
+//        carrinhoToSave.setItens(
+//                itensDTO.stream()
+//                        .map(item -> itemCarrinhoMapper.toModel(item))
+//                        .collect(Collectors.toList())
+//        );
 
         final Carrinho savedCarrinho = carrinhoRepository.save(carrinhoToSave);
-
-        final CarrinhoResponse carrinhoResponse = CarrinhoResponse.builder()
-                .code(savedCarrinho.getCode())
-                .status(savedCarrinho.getStatus().name())
-                .build();
-
-        carrinhoCreated.output().send(MessageBuilder.withPayload(carrinhoResponse).build());
 
         return createMessageResponse(
                 savedCarrinho.getId(),
                 savedCarrinho.getCode(),
                 "Carrinho salvo com ID::"
         );
+    }
+
+    @Override
+    public CarrinhoDTO pagar(String code) throws CarrinhoNotFoundException {
+        Carrinho carrinho = verifyIfExists(code);
+
+        final CarrinhoResponse carrinhoResponse = CarrinhoResponse.builder()
+                .code(carrinho.getCode())
+                .status(carrinho.getStatus().name())
+                .valor(valorItens(carrinho.getItens()))
+                .build();
+
+        carrinhoCreated.output().send(MessageBuilder.withPayload(carrinhoResponse).build());
+
+        return carrinhoMapper.toDTO(carrinho);
+    }
+
+    private Double valorItens(List<ItemCarrinho> itens) {
+        Double total = 0.0;
+
+        for(ItemCarrinho item : itens) {
+            total += item.getValor();
+        }
+
+        return total;
     }
 
     @Override

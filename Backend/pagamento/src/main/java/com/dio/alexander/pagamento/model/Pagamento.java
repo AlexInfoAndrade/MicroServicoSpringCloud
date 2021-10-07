@@ -51,7 +51,8 @@ public class Pagamento implements Serializable {
     private LocalDateTime dataAlteracao;
 
     public enum Status {
+        CRIADO,
         PENDENTE,
-        FINALIZADO
+        APROVADO
     }
 }

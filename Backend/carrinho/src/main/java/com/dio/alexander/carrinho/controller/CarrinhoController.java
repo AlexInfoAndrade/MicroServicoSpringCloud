@@ -32,11 +32,14 @@ public class CarrinhoController {
         return ResponseEntity.created(uri).body(messageResponseDTO);
     }
 
+    @GetMapping("/pagar/{code}")
+    public ResponseEntity<CarrinhoDTO> pagar(@PathVariable String code) throws CarrinhoNotFoundException {
+        return ResponseEntity.ok(service.pagar(code));
+    }
+
     @GetMapping("/{code}")
     public ResponseEntity<CarrinhoDTO> findByCode(@PathVariable String code) throws CarrinhoNotFoundException {
-        CarrinhoDTO carrinhoDTOResponse = service.carrinhoByCode(code);
-
-        return ResponseEntity.ok(carrinhoDTOResponse);
+        return ResponseEntity.ok(service.carrinhoByCode(code));
     }
 
     @PutMapping("/{code}")
