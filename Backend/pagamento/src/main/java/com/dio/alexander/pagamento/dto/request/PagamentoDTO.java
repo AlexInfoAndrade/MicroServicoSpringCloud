@@ -1,19 +1,19 @@
 package com.dio.alexander.pagamento.dto.request;
 
-import com.dio.alexander.pagamento.model.Pagamento;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PagamentoDTO implements Serializable {
 
-    @Id
-    @GeneratedValue
     private Long id;
     private String carrinhoCode;
     private String code;
